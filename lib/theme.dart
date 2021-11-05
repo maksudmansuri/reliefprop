@@ -26,9 +26,9 @@ InputDecorationTheme inputDecorationTheme() {
     floatingLabelBehavior: FloatingLabelBehavior.always,
     contentPadding: EdgeInsets.symmetric(horizontal: 42, vertical: 20),
 
-    //enabledBorder: outlineInputBorder,
-    //focusedBorder: outlineInputBorder,
-    //border: outlineInputBorder,
+    enabledBorder: outlineInputBorder,
+    focusedBorder: outlineInputBorder,
+    border: outlineInputBorder,
   );
 }
 
@@ -42,7 +42,7 @@ TextTheme textTheme() {
 AppBarTheme appBarTheme() {
   return AppBarTheme(
     color: Colors.white,
-    elevation: 0,
+    elevation: 0.2,
 
     iconTheme: IconThemeData(color: Colors.black),
   );

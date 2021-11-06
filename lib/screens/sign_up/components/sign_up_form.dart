@@ -1,9 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:reliefprop/components/default_button.dart';
 import 'package:reliefprop/components/form_error.dart';
-import 'package:reliefprop/screens/complete_profile/complete_profile_screen.dart';
 import 'package:reliefprop/screens/otp/otp_screen.dart';
-
 import '../../../constants.dart';
 import '../../../sizeConfig.dart';
 

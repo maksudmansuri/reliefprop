@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:reliefprop/components/default_button.dart';
 import 'package:reliefprop/components/form_error.dart';
 import 'package:reliefprop/screens/forgot_password/forgot_password_screen.dart';
+import 'package:reliefprop/screens/home/home_screen.dart';
 
 import '../../../constants.dart';
 import '../../../sizeConfig.dart';
+import 'package:reliefprop/APIs/APIs.dart';
+import 'package:http/http.dart' as http;
 
 class SignForm extends StatefulWidget {
   const SignForm({Key? key}) : super(key: key);
@@ -28,7 +31,7 @@ class _SignFormState extends State<SignForm> {
 
         children: [
           TextFormField(
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.emailAddress,
             onSaved: (newValue) => email = newValue,
             onChanged: (value){
               if(value.isNotEmpty && errors.contains(rEmailNullError)){
@@ -142,10 +145,26 @@ class _SignFormState extends State<SignForm> {
           DefaultButton(text: "Continue",press: (){
             if(_formKey.currentState!.validate() ){
               _formKey.currentState!.save();
+              login();
             }
           },),
         ],
       ),
     );
+  }
+  Future<void>login()async{
+
+    var response = await http.post(Uri.parse(getToken),body: ({'username':email,'password':password}));
+    if(response.statusCode==200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Successfully Login")));
+          Navigator.popAndPushNamed(context, HomeScreen.routeName);
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("invalide Credential")));
+    }
+    print(response);
+
   }
 }

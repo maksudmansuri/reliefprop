@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reliefprop/constants.dart';
 import 'package:reliefprop/screens/SplashScreen/components/splash_content.dart';
+import 'package:reliefprop/screens/home/home_screen.dart';
 import 'package:reliefprop/screens/sign_in/sign_in_screen.dart';
 import 'package:reliefprop/sizeConfig.dart';
 import 'package:reliefprop/styles/images.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/splash_content.dart';
 import '../../../components/default_button.dart';
@@ -34,6 +36,7 @@ class _BodyState extends State<Body> {
       "image": slider3,
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

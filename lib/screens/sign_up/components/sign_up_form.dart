@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import "package:flutter/material.dart";
+import 'package:reliefprop/APIs/APIs.dart';
 import 'package:reliefprop/components/default_button.dart';
 import 'package:reliefprop/components/form_error.dart';
 import 'package:reliefprop/screens/otp/otp_screen.dart';
+
 import '../../../constants.dart';
 import '../../../sizeConfig.dart';
 
@@ -34,7 +38,8 @@ class _SignUpFormState extends State<SignUpForm> {
       setState(() {
         errors.remove(error);
       });
-  }
+    }
+
   @override
   Widget build(BuildContext context) {
 
@@ -177,17 +182,37 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(30),),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
+                ValidatePhone();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, OtpScreen.routeName);
               }
             },
           ),
         ],
       ),
     );
+  }
+
+
+  Future<void>ValidatePhone()async{
+    var response = await http.post(Uri.parse(validatePhone),body: ({'phone':phoneNumber}));
+    final body = jsonDecode(response.body);
+    print(body['status']);
+    if(response.statusCode==200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Succesfully Sent")));
+      var otp = body["opt"];
+      print(otp);
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>OtpScreen(otp:otp,phone:phoneNumber,email:email,password:password)));
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("invalide Credential")));
+    }
+    print(response);
+
   }
 }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:reliefprop/constants.dart';
 import 'package:reliefprop/routes.dart';
-import 'package:reliefprop/screens/SplashScreen/splash_screen.dart';
+import 'package:reliefprop/screens/SplashScreen/login_splash_screen.dart';
 import 'package:reliefprop/theme.dart';
 
 void main() {
@@ -16,10 +15,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Relief Pro',
       theme: theme(),
       //home: SplashScreen(),
-      initialRoute: SplashScreen.routeName,
+      initialRoute: LoginSplashScreen.routeName,
+      //initialRoute: SplashScreen.routeName,
       routes: routes,
     );
   }

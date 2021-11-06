@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:reliefprop/components/default_button.dart';
 import 'package:reliefprop/components/form_error.dart';
 import 'package:reliefprop/screens/forgot_password/forgot_password_screen.dart';
 import 'package:reliefprop/screens/home/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
 import '../../../sizeConfig.dart';
@@ -155,10 +158,14 @@ class _SignFormState extends State<SignForm> {
   Future<void>login()async{
 
     var response = await http.post(Uri.parse(getToken),body: ({'username':email,'password':password}));
+    final body = jsonDecode(response.body);
     if(response.statusCode==200) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Successfully Login")));
-          Navigator.popAndPushNamed(context, HomeScreen.routeName);
+          SnackBar(content: Text("Succesfully login")));
+          print("login Token " + body["token"]);
+          SharedPreferences  pref = await SharedPreferences.getInstance();
+          await pref.setString("Login", body["token"]);
+          Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName, (route) => false);
     }
     else{
       ScaffoldMessenger.of(context).showSnackBar(

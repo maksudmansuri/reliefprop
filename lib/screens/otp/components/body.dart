@@ -1,11 +1,17 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:reliefprop/APIs/APIs.dart';
 import '../../../constants.dart';
 import '../../../sizeConfig.dart';
 import 'otp_form.dart';
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  final String? phone;
+  final String? email;
+  final String? password;
+  final int? otp;
+  const Body({Key? key,required this.otp,required this.phone, required this.email,required this.password}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +41,15 @@ class Body extends StatelessWidget {
 
                 ],
               ),
-              OtpForm(),
+              OtpForm(otp:otp,phone:phone,password:password,email:email),
               SizedBox(height: SizeConfig.screenHeight * 0.15),
               GestureDetector(
                 onTap: () {
                   // OTP code resend
+                  resendOTP();
                 },
                 child: Text(
-                  "Resend OTP Code",
+                  "Resend OTP Code ${otp}",
                   style: TextStyle(decoration: TextDecoration.underline),
                 ),
               ),
@@ -52,6 +59,12 @@ class Body extends StatelessWidget {
         ),
       ),
     );
+  }
+  Future<void>resendOTP()async{
+    var response = await http.post(Uri.parse(validatePhone),body: ({'phone':phone}));
+    final body = jsonDecode(response.body);
+    print("Successfully sent");
+
   }
 }
 

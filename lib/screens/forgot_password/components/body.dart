@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:reliefprop/APIs/APIs.dart';
 import 'package:reliefprop/components/default_button.dart';
 import 'package:reliefprop/components/form_error.dart';
 import 'package:reliefprop/components/no_account_text.dart';
+import 'package:reliefprop/screens/sign_in/sign_in_screen.dart';
 import 'package:reliefprop/sizeConfig.dart';
 
 import '../../../constants.dart';
+import 'package:http/http.dart' as http;
+
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -55,7 +61,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       child: Column(
         children: [
           TextFormField(
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.emailAddress,
             onSaved: (newValue) => email = newValue,
             onChanged: (value){
               if(value.isNotEmpty && errors.contains(rEmailNullError)){
@@ -89,7 +95,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               return null;
             },
             decoration: InputDecoration(
-              hintText: "Enter Email/Mobile",
+              hintText: "Enter Registered Email",
               suffixIcon: Padding(
                 padding: EdgeInsets.fromLTRB(0,getProportionateScreenWidth(20),getProportionateScreenWidth(20),getProportionateScreenWidth(20)
                 ),
@@ -105,7 +111,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
           SizedBox(height: SizeConfig.screenHeight * 0.1),
           DefaultButton(text:"Continue",
               press: (){
-                if(_formKey.currentState!.validate()){}
+                if(_formKey.currentState!.validate()){
+                  _formKey.currentState!.save();
+                  forgot();
+
+                }
 
               },
               ),
@@ -115,5 +125,22 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       ),
 
     );
+  }
+
+  Future<void>forgot()async{
+    var response = await http.post(Uri.parse(forgotPassword),body: ({'email':email,}));
+    final body = jsonDecode(response.body);
+    print(body["email_send"]);
+    if(body["email_send"] == "YES") {
+        print("successfully send link to your email address");
+        Navigator.pushNamed(context, SignInScreen.routeName);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Link has Been Sent")));
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Enter Registered Email ID")));
+
+    }
   }
 }

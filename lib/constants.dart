@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:reliefprop/sizeConfig.dart';
 
 
-const rPrimaryColor = Color(0xFF005374);
+const rPrimaryColor = Color(0xff00a1be);
 const rPrimaryLightColor = Color(0xFF7BC7E8);
 const rPrimaryGrdientColor = LinearGradient(
   begin: Alignment.topLeft,
@@ -11,6 +12,7 @@ const rPrimaryGrdientColor = LinearGradient(
 const rSecondaryColor = Color(0xFF979797);
 const rTextColor = Color(0xFF757575);
 const rAnimationDuration = Duration(milliseconds: 200);
+
 
 
 final headingStyle = TextStyle(
@@ -45,7 +47,7 @@ final otpInputDecoration = InputDecoration(
 
 OutlineInputBorder outlineInputBorder() {
   return OutlineInputBorder(
-    borderRadius: BorderRadius.circular(getProportionateScreenWidth(15)),
+    borderRadius: BorderRadius.circular(getProportionateScreenWidth(2)),
     borderSide: BorderSide(color: rTextColor),
   );
 }
